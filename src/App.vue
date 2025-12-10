@@ -12,22 +12,23 @@ import AppHeader from './shared/components/AppHeader.vue'
 </template>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 #app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  overflow: hidden;
 }
 
 main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>

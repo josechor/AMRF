@@ -33,13 +33,15 @@
   background-color: #2c3e50;
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  flex-shrink: 0;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
