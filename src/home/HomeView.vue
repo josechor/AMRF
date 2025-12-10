@@ -15,6 +15,34 @@
         </p>
       </div>
     </div>
+
+    <!-- Accesos directos -->
+    <div class="shortcuts">
+      <router-link to="/timeline" class="shortcut-card">
+        <span class="icon">❤️</span>
+        <span class="label">Timeline</span>
+      </router-link>
+      
+      <router-link to="/map" class="shortcut-card">
+        <span class="icon">📍</span>
+        <span class="label">Lugares visitados</span>
+      </router-link>
+      
+      <router-link to="/weekly-quiz" class="shortcut-card">
+        <span class="icon">❓</span>
+        <span class="label">Quiz semanal</span>
+      </router-link>
+      
+      <router-link to="/future-plans" class="shortcut-card">
+        <span class="icon">✨</span>
+        <span class="label">Planes futuros</span>
+      </router-link>
+      
+      <router-link to="/map" class="shortcut-card">
+        <span class="icon">🗺️</span>
+        <span class="label">Mapa</span>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -114,6 +142,53 @@ const daysUntilNextPlan = ref(3)
   font-size: 1.2rem;
 }
 
+/* Accesos directos */
+.shortcuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.shortcut-card {
+  background: var(--bg-card);
+  padding: 2rem 1.5rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  border: 2px solid var(--primary-rose);
+  box-shadow: 0 4px 12px var(--shadow-soft);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.shortcut-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px var(--shadow-medium);
+  border-color: var(--accent-love);
+}
+
+.shortcut-card .icon {
+  font-size: 3rem;
+  transition: transform 0.3s ease;
+}
+
+.shortcut-card:hover .icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.shortcut-card .label {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  line-height: 1.3;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .home {
@@ -140,6 +215,24 @@ const daysUntilNextPlan = ref(3)
   .highlight {
     font-size: 1.3em;
   }
+
+  .shortcuts {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .shortcut-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .shortcut-card .icon {
+    font-size: 2.5rem;
+  }
+
+  .shortcut-card .label {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -151,6 +244,14 @@ const daysUntilNextPlan = ref(3)
   .next-plan,
   .no-plan {
     font-size: 1rem;
+  }
+
+  .shortcuts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shortcut-card .icon {
+    font-size: 2.2rem;
   }
 }
 </style>
