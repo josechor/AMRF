@@ -17,10 +17,11 @@ import AppHeader from './shared/components/AppHeader.vue'
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: var(--primary-mint);
+  background: var(--bg-primary);
   overflow: hidden;
 }
 
@@ -30,5 +31,6 @@ main {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  background: var(--bg-primary);
 }
 </style>
