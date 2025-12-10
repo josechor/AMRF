@@ -2,7 +2,9 @@
   <header class="app-header">
     <nav>
       <div class="logo">
-        <h2>SEHC x ANCHOA</h2>
+        <router-link to="/" class="logo-link">
+          <h2>SEHC x ANCHOA</h2>
+        </router-link>
       </div>
 
       <!-- Botón hamburguesa -->
@@ -90,6 +92,16 @@ nav {
   font-size: 1.5rem;
   letter-spacing: 1px;
   z-index: 1001;
+}
+
+.logo-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+  opacity: 0.8;
 }
 
 /* Botón hamburguesa */
