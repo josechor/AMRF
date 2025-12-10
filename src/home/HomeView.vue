@@ -1,59 +1,156 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
-    <p>Bienvenido a AMRF</p>
-    <div class="color-palette">
-      <div class="color-box" style="background: var(--primary-rose)">Rosa</div>
-      <div class="color-box" style="background: var(--primary-blush)">Durazno</div>
-      <div class="color-box" style="background: var(--primary-lavender)">Lavanda</div>
-      <div class="color-box" style="background: var(--primary-mint)">Menta</div>
-      <div class="color-box" style="background: var(--primary-peach)">Melocotón</div>
+    <!-- Mini panel romántico de bienvenida -->
+    <div class="welcome-card">
+      <h1 class="greeting">Hola amor ❤️</h1>
+      <div class="stats">
+        <p class="days-together">
+          Hoy es nuestro día <span class="highlight">nº {{ daysTogether }}</span> juntos
+        </p>
+        <p class="next-plan" v-if="daysUntilNextPlan !== null">
+          Faltan <span class="highlight">{{ daysUntilNextPlan }} {{ daysUntilNextPlan === 1 ? 'día' : 'días' }}</span> para nuestro siguiente plan
+        </p>
+        <p class="no-plan" v-else>
+          Aún no tenemos ningún plan programado 😢
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+
+// Fecha de inicio de la relación: 12 de noviembre de 2024
+const startDate = new Date('2025-11-12')
+
+// Calcular días juntos
+const daysTogether = computed(() => {
+  const today = new Date()
+  const diffTime = Math.abs(today - startDate)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays
+})
+
+// Días hasta el próximo plan (puedes cambiar esto a null si no hay plan)
+// Ejemplo: const daysUntilNextPlan = ref(3)
+// Si no hay plan: const daysUntilNextPlan = ref(null)
+const daysUntilNextPlan = ref(3)
 </script>
 
 <style scoped>
 .home {
-  padding: 3rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-h1 {
-  color: var(--accent-deep-rose);
-  margin-bottom: 1rem;
-  font-size: 3em;
-}
-
-p {
-  color: var(--text-secondary);
-  font-size: 1.2em;
-  margin-bottom: 2rem;
-}
-
-.color-palette {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-}
-
-.color-box {
   padding: 2rem;
-  border-radius: 15px;
-  min-width: 150px;
-  text-align: center;
-  font-weight: 600;
-  color: var(--text-primary);
-  box-shadow: 0 4px 12px var(--shadow-soft);
-  transition: transform 0.3s ease;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
 }
 
-.color-box:hover {
+/* Card de bienvenida */
+.welcome-card {
+  background: var(--bg-card);
+  padding: 3rem 2.5rem;
+  border-radius: 30px;
+  box-shadow: 0 8px 24px var(--shadow-soft);
+  text-align: center;
+  width: 100%;
+  border: 3px solid var(--primary-rose);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.welcome-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 16px var(--shadow-medium);
+  box-shadow: 0 12px 32px var(--shadow-medium);
+}
+
+.greeting {
+  color: var(--accent-love);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.days-together,
+.next-plan,
+.no-plan {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+}
+
+.highlight {
+  color: var(--accent-love);
+  font-weight: 700;
+  font-size: 1.5em;
+  display: inline-block;
+  padding: 0 0.3rem;
+}
+
+.no-plan {
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .home {
+    padding: 1.5rem;
+    min-height: calc(100vh - 70px);
+  }
+
+  .welcome-card {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .greeting {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .days-together,
+  .next-plan,
+  .no-plan {
+    font-size: 1.1rem;
+  }
+
+  .highlight {
+    font-size: 1.3em;
+  }
+}
+
+@media (max-width: 480px) {
+  .greeting {
+    font-size: 1.8rem;
+  }
+
+  .days-together,
+  .next-plan,
+  .no-plan {
+    font-size: 1rem;
+  }
 }
 </style>
