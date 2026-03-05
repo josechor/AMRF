@@ -75,13 +75,13 @@ import PersonModal from './components/PersonModal.vue'
 // ── Person data ────────────────────────────────────────────────
 const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
 
-const ramon   = { apodo: 'El Patriarca', nombre: 'Ramón',   descripcion: LOREM }
-const estela  = { apodo: 'La Matriarca', nombre: 'Estela',  descripcion: LOREM }
-const jose    = { apodo: 'Don',          nombre: 'José',    imagen: 'YoGanster.png',    featured: true,  descripcion: LOREM }
+const ramon   = { apodo: 'El Patriarca', nombre: 'Ramón',imagen: 'Ramon.png',   descripcion: LOREM }
+const estela  = { apodo: 'La Matriarca', nombre: 'Estela',imagen: 'Estela.png',  descripcion: LOREM }
+const jose    = { apodo: 'Don',          nombre: 'José',    imagen: 'Jose.png',    featured: true,  descripcion: LOREM }
 
-const ignacio = { apodo: 'Il Vecchio',   nombre: 'Ignacio', descripcion: LOREM }
-const marina  = { apodo: 'La Matriarca', nombre: 'Marina',  descripcion: LOREM }
-const ainoa   = { apodo: 'Donna',        nombre: 'Ainoa',   imagen: 'AinoaGanster.png', featured: true,  descripcion: LOREM }
+const ignacio = { apodo: 'Il Vecchio',   nombre: 'Ignacio', imagen: 'Ignacio.png', descripcion: LOREM }
+const marina  = { apodo: 'La Matriarca', nombre: 'Marina',  imagen: 'Marina.png',  descripcion: LOREM }
+const ainoa   = { apodo: 'Donna',        nombre: 'Ainoa',   imagen: 'Ainoa.png', featured: true,  descripcion: LOREM }
 const noemi   = { apodo: 'La Sorella',   nombre: 'Noemi', imagen: "Noemi.png",  descripcion: LOREM }
 
 // ── Modal state ────────────────────────────────────────────────
