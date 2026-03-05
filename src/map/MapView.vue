@@ -181,10 +181,11 @@ onMounted(() => {
 });
 
 function focusTerritory(t) {
-  const main = document.querySelector("main");
+  const main = document.querySelector("body");
   const mapRect = mapArea.value.getBoundingClientRect();
   const mainRect = main.getBoundingClientRect();
-  main.scrollBy({ top: mapRect.top - mainRect.top, behavior: "smooth" });
+  console.log('Scrolling to:', mapRect.top - mainRect.top);
+  main.scrollBy({ top: mapRect.top - mainRect.top - 20, behavior: "smooth" });
   setTimeout(() => {
     map.flyTo(t.coords, 16, { duration: 0.8 });
     setTimeout(() => markers[t.id].openPopup(), 900);
