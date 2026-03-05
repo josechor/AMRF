@@ -1,5 +1,5 @@
 <template>
-  <div class="person-card" :class="{ 'card-featured': featured }">
+  <div class="person-card" :class="{ 'card-featured': featured }" @click="handleClick">
     <div class="photo-ring" :class="{ 'photo-ring--featured': featured }">
       <img :src="getImage(imagen)" :alt="nombre" />
     </div>
@@ -9,15 +9,27 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   apodo: String,
   nombre: String,
   imagen: String,
+  descripcion: String,
   featured: Boolean,
 })
 
+const emit = defineEmits(['select'])
+
 const getImage = (img) => {
   return new URL(`../../shared/assets/Images/Familia/${img}`, import.meta.url).href
+}
+
+function handleClick() {
+  emit('select', {
+    apodo: props.apodo,
+    nombre: props.nombre,
+    imagen: props.imagen ? getImage(props.imagen) : null,
+    descripcion: props.descripcion,
+  })
 }
 </script>
 
@@ -28,6 +40,16 @@ const getImage = (img) => {
   align-items: center;
   gap: 0.8rem;
   padding: 0 0.5rem 1.4rem;
+  cursor: pointer;
+}
+
+.person-card:hover .photo-ring {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px oklch(0.65 0.10 85 / 0.15);
+}
+
+.person-card:hover .person-name {
+  color: var(--accent-gold);
 }
 
 .person-name {
@@ -36,6 +58,7 @@ const getImage = (img) => {
   color: var(--text-primary);
   margin: 0;
   letter-spacing: 0.03em;
+  transition: color 0.2s;
 }
 
 .person-label {
@@ -63,6 +86,7 @@ const getImage = (img) => {
   color: var(--text-muted);
   flex-shrink: 0;
   overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .photo-ring svg {

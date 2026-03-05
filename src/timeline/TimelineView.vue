@@ -16,8 +16,8 @@
           <div class="tree-label">Mi lado</div>
 
           <div class="tree-grid">
-            <PersonCard apodo="El Patriarca" nombre="Ramón" />
-            <PersonCard apodo="La Matriarca" nombre="Estela" />
+            <PersonCard v-bind="ramon"   @select="openModal" />
+            <PersonCard v-bind="estela"  @select="openModal" />
 
             <!-- 2 parents → 1 child -->
             <svg class="tree-svg" viewBox="0 0 100 60" preserveAspectRatio="none">
@@ -25,13 +25,7 @@
               <line x1="50" y1="0" x2="50" y2="60" class="tree-line"/>
             </svg>
 
-            <PersonCard
-              class="card-solo"
-              apodo="Don"
-              nombre="José"
-              imagen="YoGanster.png"
-              :featured="true"
-            />
+            <PersonCard class="card-solo" v-bind="jose" @select="openModal" />
           </div>
 
         </div>
@@ -45,8 +39,8 @@
           <div class="tree-label">Su lado</div>
 
           <div class="tree-grid">
-            <PersonCard apodo="Il Vecchio" nombre="Ignacio" />
-            <PersonCard apodo="La Matriarca" nombre="Marina" />
+            <PersonCard v-bind="ignacio" @select="openModal" />
+            <PersonCard v-bind="marina"  @select="openModal" />
 
             <!-- 2 parents → 2 children (forked) -->
             <svg class="tree-svg" viewBox="0 0 100 60" preserveAspectRatio="none">
@@ -57,13 +51,8 @@
               <line x1="75" y1="30" x2="75" y2="60" class="tree-line"/>
             </svg>
 
-            <PersonCard
-              apodo="Donna"
-              nombre="Ainoa"
-              imagen="AinoaGanster.png"
-              :featured="true"
-            />
-            <PersonCard apodo="La Sorella" nombre="Noemi" />
+            <PersonCard v-bind="ainoa"  @select="openModal" />
+            <PersonCard v-bind="noemi"  @select="openModal" />
           </div>
 
         </div>
@@ -71,11 +60,47 @@
       </div>
 
     </div>
+
+    <!-- ─────────────────── MODAL ─────────────────── -->
+    <PersonModal :person="selectedPerson" @close="closeModal" />
+
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import PersonCard from './components/PersonCard.vue'
+import PersonModal from './components/PersonModal.vue'
+
+// ── Person data ────────────────────────────────────────────────
+const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+
+const ramon   = { apodo: 'El Patriarca', nombre: 'Ramón',   descripcion: LOREM }
+const estela  = { apodo: 'La Matriarca', nombre: 'Estela',  descripcion: LOREM }
+const jose    = { apodo: 'Don',          nombre: 'José',    imagen: 'YoGanster.png',    featured: true,  descripcion: LOREM }
+
+const ignacio = { apodo: 'Il Vecchio',   nombre: 'Ignacio', descripcion: LOREM }
+const marina  = { apodo: 'La Matriarca', nombre: 'Marina',  descripcion: LOREM }
+const ainoa   = { apodo: 'Donna',        nombre: 'Ainoa',   imagen: 'AinoaGanster.png', featured: true,  descripcion: LOREM }
+const noemi   = { apodo: 'La Sorella',   nombre: 'Noemi', imagen: "Noemi.png",  descripcion: LOREM }
+
+// ── Modal state ────────────────────────────────────────────────
+const selectedPerson = ref(null)
+
+function openModal(person) {
+  selectedPerson.value = person
+}
+
+function closeModal() {
+  selectedPerson.value = null
+}
+
+function onKeydown(e) {
+  if (e.key === 'Escape') closeModal()
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <style scoped>
@@ -148,8 +173,6 @@ import PersonCard from './components/PersonCard.vue'
 }
 
 /* ─── Tree grid ─────────────────────────────────────────────── */
-/* No column-gap so column centers land at 25%/75%,
-   matching the SVG viewBox coordinates exactly. */
 .tree-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -159,7 +182,6 @@ import PersonCard from './components/PersonCard.vue'
   width: 100%;
 }
 
-/* Solo child spans both columns and centers itself */
 .card-solo {
   grid-column: 1 / -1;
   padding-bottom: 0;
