@@ -129,7 +129,7 @@ const daysTogether = computed(() => {
 const stats = ref({
   operaciones: 47,
   territorios: 8,
-  familia: 2,
+  familia: 7,
 })
 </script>
 
@@ -344,6 +344,8 @@ const stats = ref({
   padding: 1.8rem 2rem;
   text-align: center;
   background: transparent;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .quote-text {
