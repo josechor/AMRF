@@ -26,29 +26,9 @@
         </div>
       </div>
 
-      <!-- ─── Map placeholder ────────────────────── -->
+      <!-- ─── Mapa Leaflet ───────────────────────── -->
       <div class="map-area">
-        <div class="map-grid-bg"></div>
-        <div class="map-pins">
-          <div
-            v-for="(t, i) in territories"
-            :key="t.id"
-            class="map-pin"
-            :style="pinPositions[i]"
-          >
-            <div class="pin-dot"></div>
-            <div class="pin-pulse"></div>
-            <span class="pin-label">{{ t.name }}</span>
-          </div>
-        </div>
-        <div class="map-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-            <line x1="9" y1="3" x2="9" y2="18"/>
-            <line x1="15" y1="6" x2="15" y2="21"/>
-          </svg>
-          Mapa interactivo · Próximamente
-        </div>
+        <div ref="mapContainer" class="leaflet-map"></div>
       </div>
 
       <!-- ─── Territory Cards ────────────────────── -->
@@ -92,23 +72,92 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 const territories = [
-  { id: 1, name: 'El Koi',      location: 'Vigo',         operations: 1, mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd259d698791e63f:0xeb55356da6f44b0b?sa=X&ved=1t:8290&ictx=111' },
-  { id: 2, name: 'Umi · Laxe',  location: 'A Laxe, Vigo', operations: 2, mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd2f63f6591ac4a1:0xd325ec4ebc5c5487?sa=X&ved=1t:8290&ictx=111' },
-  { id: 3, name: 'Umi · Samil', location: 'Samil, Vigo',  operations: 1, mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd258bccd5c79eb1:0xa553d04668cdf310?sa=X&ved=1t:8290&ictx=111' },
+  {
+    id: 1,
+    name: 'El Koi',
+    location: 'Vigo',
+    operations: 1,
+    coords: [42.06547424493406, -8.504045586508964],
+    mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd259d698791e63f:0xeb55356da6f44b0b?sa=X&ved=1t:8290&ictx=111',
+  },
+  {
+    id: 2,
+    name: 'Umi · Laxe',
+    location: 'A Laxe, Vigo',
+    operations: 3,
+    coords: [42.240739199931284, -8.72681290000497],
+    mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd2f63f6591ac4a1:0xd325ec4ebc5c5487?sa=X&ved=1t:8290&ictx=111',
+  },
+  {
+    id: 3,
+    name: 'Umi · Samil',
+    location: 'Samil, Vigo',
+    operations: 1,
+    coords: [42.20755352005486, -8.775723742327358],
+    mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd258bccd5c79eb1:0xa553d04668cdf310?sa=X&ved=1t:8290&ictx=111',
+  },
 ]
 
-const pinPositions = [
-  { top: '38%', left: '28%' },
-  { top: '55%', left: '52%' },
-  { top: '30%', left: '68%' },
-]
-
-const totalOps     = computed(() => territories.reduce((s, t) => s + t.operations, 0))
-const maxOps       = computed(() => Math.max(...territories.map(t => t.operations)))
+const totalOps      = computed(() => territories.reduce((s, t) => s + t.operations, 0))
+const maxOps        = computed(() => Math.max(...territories.map(t => t.operations)))
 const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >= b.operations ? a : b))
+
+// ── Leaflet ────────────────────────────────────────
+const mapContainer = ref(null)
+let map = null
+
+const goldIcon = L.divIcon({
+  className: '',
+  html: `<div class="lf-pin"><div class="lf-pin-pulse"></div></div>`,
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
+  popupAnchor: [0, -12],
+})
+
+onMounted(() => {
+  map = L.map(mapContainer.value, {
+    center: [42.177408533898905, -8.508628879944949],
+    zoom: 10,
+    zoomControl: false,
+    attributionControl: false,
+  })
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map)
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map)
+
+  territories.forEach(t => {
+    const ops = t.operations === 1 ? '1 operación' : `${t.operations} operaciones`
+    const popup = `
+      <div class="lf-popup">
+        <div class="lf-popup-code">ZONA ${String(t.id).padStart(2, '0')}</div>
+        <div class="lf-popup-name">${t.name}</div>
+        <div class="lf-popup-ops">${ops}</div>
+        <a href="${t.mapUrl}" target="_blank" rel="noopener noreferrer" class="lf-popup-link">
+          Ver en Maps →
+        </a>
+      </div>
+    `
+    L.marker(t.coords, { icon: goldIcon })
+      .addTo(map)
+      .bindPopup(popup, { className: 'lf-popup-wrapper', maxWidth: 200 })
+  })
+})
+
+onUnmounted(() => {
+  if (map) {
+    map.remove()
+    map = null
+  }
+})
 </script>
 
 <style scoped>
@@ -127,9 +176,7 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
 }
 
 /* ─── Header ───────────────────────────────────── */
-.page-header {
-  text-align: center;
-}
+.page-header { text-align: center; }
 
 .page-title {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
@@ -169,7 +216,7 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
 .t-stat-value {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
   font-size: var(--text-xl);
-  color: var(--accent-gold);
+  color: #c9a84c;
   line-height: 1;
   letter-spacing: 0.05em;
 }
@@ -191,97 +238,15 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
 /* ─── Map area ────────────────────────────────── */
 .map-area {
   position: relative;
-  height: 280px;
-  background: var(--bg-card);
+  height: 400px;
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   overflow: hidden;
 }
 
-.map-grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border-subtle) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.5;
-}
-
-.map-grid-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, var(--bg-card) 100%);
-}
-
-/* ── Pins ── */
-.map-pins {
-  position: absolute;
-  inset: 0;
-}
-
-.map-pin {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: default;
-}
-
-.pin-dot {
-  width: 10px;
-  height: 10px;
-  background: var(--accent-gold);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--shadow-gold-active);
-  position: relative;
-  z-index: 2;
-}
-
-.pin-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent-gold);
-  opacity: 0.4;
-  animation: pulse 2s ease-out infinite;
-}
-
-@keyframes pulse {
-  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.4; }
-  100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
-}
-
-.pin-label {
-  font-size: var(--text-xs);
-  color: var(--accent-gold);
-  letter-spacing: 0.06em;
-  background: rgba(15, 15, 15, 0.85);
-  padding: 2px 7px;
-  border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  white-space: nowrap;
-  position: relative;
-  z-index: 2;
-}
-
-.map-badge {
-  position: absolute;
-  bottom: 12px;
-  right: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
+.leaflet-map {
+  width: 100%;
+  height: 100%;
 }
 
 /* ─── Territory cards ─────────────────────────── */
@@ -303,8 +268,8 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
 }
 
 .territory-card:hover {
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 0 1px var(--accent-gold), 0 4px 20px var(--shadow-gold);
+  border-color: #c9a84c;
+  box-shadow: 0 0 0 1px #c9a84c, 0 4px 20px rgba(201, 168, 76, 0.2);
 }
 
 .card-top {
@@ -323,7 +288,7 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
 .t-status-badge {
   font-size: var(--text-xs);
   letter-spacing: 0.1em;
-  color: var(--accent-gold);
+  color: #c9a84c;
   text-transform: uppercase;
 }
 
@@ -352,13 +317,8 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
   transition: opacity 0.2s;
 }
 
-.t-location:hover {
-  color: var(--accent-gold);
-}
-
-.t-location:hover svg {
-  opacity: 1;
-}
+.t-location:hover { color: #c9a84c; }
+.t-location:hover svg { opacity: 1; }
 
 .t-divider {
   height: 1px;
@@ -411,46 +371,148 @@ const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >
 }
 
 .ops-dot.filled {
-  background: var(--accent-gold);
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 4px var(--shadow-gold);
+  background: #c9a84c;
+  border-color: #c9a84c;
+  box-shadow: 0 0 4px rgba(201, 168, 76, 0.5);
 }
 
 /* ─── Responsive ──────────────────────────────── */
 @media (max-width: 1024px) {
-  .territories-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .territories-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .page-body {
-    padding: 1.5rem 1rem 3rem;
-  }
-
-  .territory-stats {
-    gap: 1.5rem;
-    padding: 1rem 1.2rem;
-  }
-
-  .map-area {
-    height: 220px;
-  }
-
-  .territories-grid {
-    grid-template-columns: 1fr;
-  }
+  .page-body { padding: 1.5rem 1rem 3rem; }
+  .territory-stats { gap: 1.5rem; padding: 1rem 1.2rem; }
+  .map-area { height: 300px; }
+  .territories-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  .territory-stats {
-    flex-direction: column;
-    gap: 1rem;
-  }
+  .territory-stats { flex-direction: column; gap: 1rem; }
+  .t-stat-divider { width: 40px; height: 1px; }
+}
+</style>
 
-  .t-stat-divider {
-    width: 40px;
-    height: 1px;
-  }
+<!-- Estilos globales para Leaflet (no scoped) -->
+<style>
+/* ── Marcador dorado ── */
+.lf-pin {
+  width: 16px;
+  height: 16px;
+  background: #c9a84c;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 0 10px rgba(201, 168, 76, 0.7);
+  position: relative;
+}
+
+.lf-pin-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.3);
+  animation: lf-pulse 2s ease-out infinite;
+}
+
+@keyframes lf-pulse {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ── Popup wrapper (override Leaflet) ── */
+.lf-popup-wrapper .leaflet-popup-content-wrapper {
+  background: #1c1c1c;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  padding: 0;
+}
+
+.lf-popup-wrapper .leaflet-popup-content {
+  margin: 0;
+}
+
+.lf-popup-wrapper .leaflet-popup-tip-container {
+  display: none;
+}
+
+.lf-popup-wrapper .leaflet-popup-close-button {
+  color: #555;
+  font-size: 16px;
+  top: 6px;
+  right: 8px;
+}
+
+.lf-popup-wrapper .leaflet-popup-close-button:hover {
+  color: #c9a84c;
+}
+
+/* ── Contenido del popup ── */
+.lf-popup {
+  padding: 14px 16px;
+  font-family: 'Inter', 'Rajdhani', sans-serif;
+  min-width: 160px;
+}
+
+.lf-popup-code {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #555;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.lf-popup-name {
+  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.lf-popup-ops {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.lf-popup-link {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #c9a84c;
+  text-decoration: none;
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 4px 10px;
+  border-radius: 3px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.lf-popup-link:hover {
+  background: rgba(201, 168, 76, 0.1);
+  border-color: #c9a84c;
+}
+
+/* ── Zoom control ── */
+.leaflet-control-zoom {
+  border: 1px solid #2a2a2a !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  background: #1c1c1c !important;
+  color: #888 !important;
+  border-bottom: 1px solid #2a2a2a !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #242424 !important;
+  color: #c9a84c !important;
 }
 </style>
