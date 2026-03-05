@@ -184,6 +184,11 @@ nav {
 
 /* Responsive */
 @media (max-width: 1050px) {
+  .logo-text {
+  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-size: var(--text-lg);
+  letter-spacing: 0.15em;
+}
   .app-header { padding: 0 1rem; }
 
   .menu-toggle { display: flex; }

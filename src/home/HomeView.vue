@@ -399,7 +399,7 @@ const stats = ref({
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .hero {
     height: 280px;
   }
@@ -409,7 +409,7 @@ const stats = ref({
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 0.6rem;
   }
 

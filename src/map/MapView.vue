@@ -315,6 +315,7 @@ onUnmounted(() => {
 .t-location {
   display: flex;
   align-items: center;
+  width: fit-content;
   gap: 5px;
   font-size: var(--text-sm);
   color: var(--text-secondary);
