@@ -1,18 +1,17 @@
 <template>
   <div class="home">
-
-    <!-- ── HERO ── -->
-    <section class="hero">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1 class="hero-title">
-          BIENVENIDO AL <span class="gold">IMPERIO</span>
-        </h1>
-        <p class="hero-subtitle">Donde los negocios se hacen con clase y poder</p>
-      </div>
-    </section>
-
     <div class="dashboard-body">
+
+      <!-- ── HERO ── -->
+      <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <h1 class="hero-title">
+            BIENVENIDO AL <span class="gold">IMPERIO</span>
+          </h1>
+          <p class="hero-subtitle">Donde los negocios se hacen con clase y poder</p>
+        </div>
+      </section>
 
       <!-- ── STATS ── -->
       <section class="stats-grid">
@@ -144,12 +143,14 @@ const stats = ref({
 .hero {
   position: relative;
   width: 100%;
-  height: 260px;
+  height: 400px;
   background-image: url('../shared/assets/Images/Gansters.webp');
   background-size: cover;
-  background-position: center top;
+  background-position: 50% 40%;
   background-color: #1a1a1a;
   overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--accent-gold);
 }
 
 .hero-overlay {
@@ -212,7 +213,7 @@ const stats = ref({
 
 .stat-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--accent-gold);
   border-radius: 8px;
   padding: 1.2rem 1.4rem 1rem;
 }
@@ -264,7 +265,7 @@ const stats = ref({
   align-items: center;
   gap: 1.2rem;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--accent-gold);
   border-radius: 8px;
   padding: 1.4rem 1.6rem;
   text-decoration: none;
@@ -315,7 +316,7 @@ const stats = ref({
 
 /* ── Quote ── */
 .quote-card {
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--accent-gold);
   border-radius: 8px;
   padding: 1.8rem 2rem;
   text-align: center;
@@ -346,7 +347,7 @@ const stats = ref({
 
 @media (max-width: 768px) {
   .hero {
-    height: 200px;
+    height: 300px;
   }
 
   .hero-content {
@@ -375,7 +376,7 @@ const stats = ref({
 
 @media (max-width: 480px) {
   .hero {
-    height: 170px;
+    height: 280px;
   }
 
   .dashboard-body {
