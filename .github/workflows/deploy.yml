@@ -2,13 +2,14 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       ref:
-        description: 'Commit SHA o rama a desplegar'
+        description: "Branch o commit SHA a desplegar"
         required: false
-        default: 'master'
+        default: "master"
 
 permissions:
   contents: read
@@ -16,32 +17,40 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: github-pages
+  cancel-in-progress: true
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.ref || github.ref }}
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - run: npm ci
+      - name: Instalar dependencias
+        run: npm ci
 
-      - run: npm run build
+      - name: Build proyecto
+        run: npm run build
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Subir artefacto
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
-      - uses: actions/deploy-pages@v4
+      - name: Deploy a GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v4
