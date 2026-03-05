@@ -183,7 +183,7 @@ nav {
 .menu-overlay { display: none; }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
   .app-header { padding: 0 1rem; }
 
   .menu-toggle { display: flex; }
@@ -201,6 +201,7 @@ nav {
     gap: 0.25rem;
     transition: right 0.35s ease-in-out;
     overflow-y: auto;
+    z-index: 1000;
   }
 
   .nav-links.open { right: 0; }
