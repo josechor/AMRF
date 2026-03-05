@@ -153,6 +153,7 @@ nav {
   color: var(--accent-gold);
   border-color: var(--accent-gold);
   background: transparent;
+  box-shadow: 0 0 0 1px var(--accent-gold), 0 2px 10px var(--shadow-gold-active);
 }
 
 /* Hamburguesa */

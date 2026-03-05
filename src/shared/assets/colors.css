@@ -1,10 +1,10 @@
 :root {
   /* === LA ORGANIZACIÓN – Paleta Noir & Oro === */
 
-  /* Acento dorado / naranja */
-  --accent-gold: #f5a623;
-  --accent-gold-dark: #c8831a;
-  --accent-gold-light: #ffc043;
+  /* Acento oro – amarillo dorado estilo joyería */
+  --accent-gold:        oklch(65.582% 0.10158 85.485);   /* oro principal            */
+  --accent-gold-dark:   oklch(0.62 0.12 82);   /* oro oscuro / hover       */
+  --accent-gold-light:  oklch(0.87 0.11 90);   /* oro claro / champán      */
 
   /* Fondos oscuros */
   --bg-primary: #111111;
@@ -25,13 +25,14 @@
   --text-light: #ffffff;
 
   /* Sombras */
-  --shadow-soft: rgba(0, 0, 0, 0.4);
-  --shadow-medium: rgba(0, 0, 0, 0.6);
-  --shadow-gold: rgba(245, 166, 35, 0.25);
+  --shadow-soft:         rgba(0, 0, 0, 0.4);
+  --shadow-medium:       rgba(0, 0, 0, 0.6);
+  --shadow-gold:         oklch(0.75 0.13 85 / 0.22);   /* brillo sutil del oro        */
+  --shadow-gold-active:  oklch(0.75 0.13 85 / 0.45);   /* glow estado activo           */
 
   /* Legados: alias para compatibilidad con viejos componentes */
   --primary-rose: var(--accent-gold);
-  --accent-love: var(--accent-gold);
+  --accent-love:  var(--accent-gold);
   --secondary-cream: #1c1c1c;
 
   /* Gradientes */

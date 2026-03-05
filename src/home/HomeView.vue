@@ -233,6 +233,11 @@ const stats = ref({
   border: 1px solid var(--accent-gold);
   border-radius: 8px;
   padding: 1.2rem 1.4rem 1rem;
+  transition: box-shadow 0.25s;
+}
+
+.stat-card:hover {
+  box-shadow: 0 0 0 1px var(--accent-gold), 0 4px 16px var(--shadow-gold);
 }
 
 .stat-header {
@@ -286,17 +291,18 @@ const stats = ref({
   border-radius: 8px;
   padding: 1.4rem 1.6rem;
   text-decoration: none;
-  transition: border-color 0.2s, background 0.2s;
+  transition: background 0.25s, box-shadow 0.25s;
   cursor: pointer;
 }
 
 .nav-card:hover {
-  border-color: rgba(245, 166, 35, 0.4);
   background: var(--bg-card-hover);
+  box-shadow: 0 0 0 1px var(--accent-gold), 0 4px 16px var(--shadow-gold);
 }
 
 .nav-card.active-card {
-  border-color: var(--accent-gold);
+  background: oklch(0.75 0.13 85 / 0.07);
+  box-shadow: 0 0 0 2px var(--accent-gold), 0 6px 28px var(--shadow-gold-active);
 }
 
 .nav-card-icon {
