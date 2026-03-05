@@ -144,24 +144,41 @@ const stats = ref({
   position: relative;
   width: 100%;
   height: 400px;
-  background-image: url('../shared/assets/Images/Gansters.webp');
-  background-size: cover;
-  background-position: 50% 40%;
   background-color: #1a1a1a;
   overflow: hidden;
   border-radius: 8px;
   border: 1px solid var(--accent-gold);
 }
 
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -12px;          /* extra space so edges don't show during movement */
+  background-image: url('../shared/assets/Images/Gansters.webp');
+  background-size: cover;
+  background-position: 50% 40%;
+  animation: hero-drift 10s infinite;
+  will-change: transform;
+}
+
+@keyframes hero-drift {
+  0%   { transform: translate(0px,   0px);  }
+  25%  { transform: translate(2px,  -5px);  }
+  50%  { transform: translate(-4px, -3px);  }
+  75%  { transform: translate(-1px,  4px);  }
+  100% { transform: translate(0px,   0px);  }
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: var(--gradient-hero);
+  z-index: 1;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
