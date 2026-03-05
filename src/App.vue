@@ -26,6 +26,7 @@ import AppHeader from './shared/components/AppHeader.vue'
   color: var(--text-primary);
   background: var(--bg-primary);
   overflow: hidden;
+  
 }
 
 main {
