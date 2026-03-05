@@ -8,6 +8,9 @@ import AppHeader from './shared/components/AppHeader.vue'
     <main>
       <router-view />
     </main>
+    <footer class="app-footer">
+      <span>La Organización © 2026 – Todos los derechos reservados</span>
+    </footer>
   </div>
 </template>
 
@@ -16,7 +19,7 @@ import AppHeader from './shared/components/AppHeader.vue'
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Inter', 'Rajdhani', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,9 +31,20 @@ import AppHeader from './shared/components/AppHeader.vue'
 main {
   flex: 1;
   width: 100%;
-  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   background: var(--bg-primary);
+}
+
+.app-footer {
+  flex-shrink: 0;
+  width: 100%;
+  border-top: 1px solid var(--border-subtle);
+  background: #0f0f0f;
+  padding: 30px 2rem;
+  text-align: center;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
 }
 </style>
