@@ -17,10 +17,10 @@ import AppHeader from './shared/components/AppHeader.vue'
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Rajdhani', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--primary-mint);
+  color: var(--text-primary);
   background: var(--bg-primary);
   overflow: hidden;
 }

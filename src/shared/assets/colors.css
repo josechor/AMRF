@@ -1,37 +1,45 @@
 :root {
-  /* Colores principales - Paleta pastel romántica */
-  --primary-rose: #FFB3BA;        /* Rosa suave */
-  --primary-blush: #FFDFBA;       /* Durazno/Coral claro */
-  --primary-lavender: #E0BBE4;    /* Lavanda */
-  --primary-mint: #BAFFC9;        /* Menta suave */
-  --primary-peach: #FEC8D8;       /* Melocotón */
-  
-  /* Colores secundarios */
-  --secondary-pink: #FFD1DC;      /* Rosa claro */
-  --secondary-lilac: #D4A5A5;     /* Lila suave */
-  --secondary-cream: #FFF5E1;     /* Crema */
-  
-  /* Colores de texto */
-  --text-primary: #5C4742;        /* Marrón suave para texto principal */
-  --text-secondary: #8B7D7B;      /* Marrón más claro para texto secundario */
-  --text-light: #FFFFFF;          /* Texto blanco */
-  --text-title: #4A3A36;       /* Marrón oscuro para títulos */
-  
-  /* Colores de fondo */
-  --bg-primary: #FFF9F9;          /* Fondo principal muy suave */
-  --bg-secondary: #FFF0F5;        /* Fondo secundario rosa muy claro */
-  --bg-card: #FFFFFF;             /* Fondo de tarjetas */
-  
-  /* Colores de acento */
-  --accent-love: #FF6B9D;         /* Rosa amor más intenso */
-  --accent-heart: #FF85A1;        /* Rosa corazón */
-  --accent-deep-rose: #E05680;     /* Rosa profundo */
-  
+  /* === LA ORGANIZACIÓN – Paleta Noir & Oro === */
+
+  /* Acento dorado / naranja */
+  --accent-gold: #f5a623;
+  --accent-gold-dark: #c8831a;
+  --accent-gold-light: #ffc043;
+
+  /* Fondos oscuros */
+  --bg-primary: #111111;
+  --bg-secondary: #161616;
+  --bg-card: #1c1c1c;
+  --bg-card-hover: #242424;
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+
+  /* Bordes */
+  --border-subtle: #2a2a2a;
+  --border-gold: var(--accent-gold);
+
+  /* Texto */
+  --text-primary: #e8e8e8;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --text-title: #ffffff;
+  --text-light: #ffffff;
+
   /* Sombras */
-  --shadow-soft: rgba(255, 179, 186, 0.2);
-  --shadow-medium: rgba(255, 179, 186, 0.3);
-  
+  --shadow-soft: rgba(0, 0, 0, 0.4);
+  --shadow-medium: rgba(0, 0, 0, 0.6);
+  --shadow-gold: rgba(245, 166, 35, 0.25);
+
+  /* Legados: alias para compatibilidad con viejos componentes */
+  --primary-rose: var(--accent-gold);
+  --accent-love: var(--accent-gold);
+  --secondary-cream: #1c1c1c;
+
   /* Gradientes */
-  --gradient-romantic: linear-gradient(135deg, var(--primary-rose) 0%, var(--primary-lavender) 100%);
-  --gradient-soft: linear-gradient(135deg, var(--primary-blush) 0%, var(--primary-peach) 100%);
+  --gradient-dark: linear-gradient(180deg, #1a1a1a 0%, #111111 100%);
+  --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+  --gradient-hero: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
 }

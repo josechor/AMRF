@@ -1,47 +1,117 @@
 <template>
   <div class="home">
-    <!-- Mini panel romántico de bienvenida -->
-    <div class="welcome-card">
-      <h1 class="greeting">Hola amor ❤️</h1>
-      <div class="stats">
-        <p class="days-together">
-          Hoy es nuestro día <span class="highlight">nº {{ daysTogether }}</span> juntos
-        </p>
-        <p class="next-plan" v-if="daysUntilNextPlan !== null">
-          Faltan <span class="highlight">{{ daysUntilNextPlan }} {{ daysUntilNextPlan === 1 ? 'día' : 'días' }}</span> para nuestro siguiente plan
-        </p>
-        <p class="no-plan" v-else>
-          Aún no tenemos ningún plan programado 😢
-        </p>
-      </div>
-    </div>
 
-    <!-- Accesos directos -->
-    <div class="shortcuts">
-      <router-link to="/timeline" class="shortcut-card">
-        <span class="icon">❤️</span>
-        <span class="label">Timeline</span>
-      </router-link>
-      
-      <router-link to="/map" class="shortcut-card">
-        <span class="icon">📍</span>
-        <span class="label">Lugares visitados</span>
-      </router-link>
-      
-      <router-link to="/weekly-quiz" class="shortcut-card">
-        <span class="icon">❓</span>
-        <span class="label">Quiz semanal</span>
-      </router-link>
-      
-      <router-link to="/future-plans" class="shortcut-card">
-        <span class="icon">✨</span>
-        <span class="label">Planes futuros</span>
-      </router-link>
-      
-      <router-link to="/map" class="shortcut-card">
-        <span class="icon">🗺️</span>
-        <span class="label">Mapa</span>
-      </router-link>
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">
+          BIENVENIDO AL <span class="gold">IMPERIO</span>
+        </h1>
+        <p class="hero-subtitle">Donde los negocios se hacen con clase y poder</p>
+      </div>
+    </section>
+
+    <div class="dashboard-body">
+
+      <!-- ── STATS ── -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">DÍAS ACTIVOS</span>
+            <span class="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+            </span>
+          </div>
+          <div class="stat-value">{{ daysTogether }}</div>
+          <div class="stat-bar"></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">OPERACIONES</span>
+            <span class="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </span>
+          </div>
+          <div class="stat-value">{{ stats.operaciones }}</div>
+          <div class="stat-bar"></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">TERRITORIOS</span>
+            <span class="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </span>
+          </div>
+          <div class="stat-value">{{ stats.territorios }}</div>
+          <div class="stat-bar"></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">LA FAMILIA</span>
+            <span class="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+          </div>
+          <div class="stat-value">{{ stats.familia }}</div>
+          <div class="stat-bar"></div>
+        </div>
+      </section>
+
+      <!-- ── NAV CARDS ── -->
+      <section class="nav-grid">
+        <router-link to="/" class="nav-card active-card">
+          <span class="nav-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+          </span>
+          <div class="nav-card-text">
+            <span class="nav-card-title">EL NEGOCIO</span>
+            <span class="nav-card-sub">Dashboard principal</span>
+          </div>
+        </router-link>
+
+        <router-link to="/map" class="nav-card">
+          <span class="nav-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+          </span>
+          <div class="nav-card-text">
+            <span class="nav-card-title">EL TERRITORIO</span>
+            <span class="nav-card-sub">Mapa de operaciones</span>
+          </div>
+        </router-link>
+
+        <router-link to="/timeline" class="nav-card">
+          <span class="nav-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <div class="nav-card-text">
+            <span class="nav-card-title">LA FAMILIA</span>
+            <span class="nav-card-sub">Los miembros</span>
+          </div>
+        </router-link>
+
+        <router-link to="/future-plans" class="nav-card">
+          <span class="nav-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </span>
+          <div class="nav-card-text">
+            <span class="nav-card-title">LOS PLANES</span>
+            <span class="nav-card-sub">Próximos movimientos</span>
+          </div>
+        </router-link>
+      </section>
+
+      <!-- ── QUOTE ── -->
+      <section class="quote-card">
+        <p class="quote-text">
+          "En este negocio, la lealtad lo es todo. El respeto se gana, no se regala."
+        </p>
+        <span class="quote-author">— EL DON</span>
+      </section>
+
     </div>
   </div>
 </template>
@@ -49,209 +119,280 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-// Fecha de inicio de la relación: 12 de noviembre de 2024
+// Fecha de inicio
 const startDate = new Date('2025-11-12')
 
-// Calcular días juntos
 const daysTogether = computed(() => {
   const today = new Date()
-  const diffTime = Math.abs(today - startDate)
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  return diffDays
+  return Math.ceil(Math.abs(today - startDate) / (1000 * 60 * 60 * 24))
 })
 
-// Días hasta el próximo plan (puedes cambiar esto a null si no hay plan)
-// Ejemplo: const daysUntilNextPlan = ref(3)
-// Si no hay plan: const daysUntilNextPlan = ref(null)
-const daysUntilNextPlan = ref(3)
+const stats = ref({
+  operaciones: 47,
+  territorios: 8,
+  familia: 2,
+})
 </script>
 
 <style scoped>
 .home {
-  padding: 2rem;
-  max-width: 600px;
+  min-height: calc(100vh - 56px);
+  background: var(--bg-primary);
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  background-image: url('../shared/assets/Images/Gansters.webp');
+  background-size: cover;
+  background-position: center top;
+  background-color: #1a1a1a;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-hero);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 0 2.5rem 2rem;
+  max-width: 1400px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 80px);
 }
 
-/* Card de bienvenida */
-.welcome-card {
-  background: var(--bg-card);
-  padding: 3rem 2.5rem;
-  border-radius: 30px;
-  box-shadow: 0 8px 24px var(--shadow-soft);
-  text-align: center;
-  width: 100%;
-  border: 3px solid var(--primary-rose);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.hero-title {
+  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  line-height: 1.1;
+  margin: 0 0 0.4rem;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 }
 
-.welcome-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px var(--shadow-medium);
+.hero-title .gold {
+  color: var(--accent-gold);
 }
 
-.greeting {
-  color: var(--accent-love);
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  font-weight: 700;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.days-together,
-.next-plan,
-.no-plan {
-  font-size: 1.3rem;
-  color: var(--text-primary);
-  line-height: 1.6;
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
   margin: 0;
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
-.highlight {
-  color: var(--accent-love);
-  font-weight: 700;
-  font-size: 1.5em;
-  display: inline-block;
-  padding: 0 0.3rem;
-}
-
-.no-plan {
-  color: var(--text-secondary);
-  font-style: italic;
-  font-size: 1.2rem;
-}
-
-/* Accesos directos */
-.shortcuts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  margin-top: 3rem;
-}
-
-.shortcut-card {
-  background: var(--bg-card);
-  padding: 2rem 1.5rem;
-  border-radius: 20px;
+/* ── Dashboard body ── */
+.dashboard-body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 3rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2rem;
+}
+
+/* ── Stats ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem 1rem;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.stat-icon {
+  color: var(--text-muted);
+  display: flex;
+}
+
+.stat-value {
+  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-size: 2.4rem;
+  color: var(--text-title);
+  line-height: 1;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.stat-bar {
+  height: 2px;
+  background: var(--accent-gold);
+  border-radius: 1px;
+  width: 100%;
+}
+
+/* ── Nav Cards ── */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.nav-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
   text-decoration: none;
-  border: 2px solid var(--primary-rose);
-  box-shadow: 0 4px 12px var(--shadow-soft);
-  transition: all 0.3s ease;
+  transition: border-color 0.2s, background 0.2s;
   cursor: pointer;
 }
 
-.shortcut-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 20px var(--shadow-medium);
-  border-color: var(--accent-love);
+.nav-card:hover {
+  border-color: rgba(245, 166, 35, 0.4);
+  background: var(--bg-card-hover);
 }
 
-.shortcut-card .icon {
-  font-size: 3rem;
-  transition: transform 0.3s ease;
+.nav-card.active-card {
+  border-color: var(--accent-gold);
 }
 
-.shortcut-card:hover .icon {
-  transform: scale(1.2) rotate(10deg);
+.nav-card-icon {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  display: flex;
+  transition: color 0.2s;
 }
 
-.shortcut-card .label {
-  color: var(--text-primary);
+.nav-card:hover .nav-card-icon,
+.active-card .nav-card-icon {
+  color: var(--accent-gold);
+}
+
+.nav-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nav-card-title {
+  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  color: var(--text-title);
   font-weight: 600;
-  font-size: 0.95rem;
-  text-align: center;
-  line-height: 1.3;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .home {
-    padding: 1.5rem;
-    min-height: calc(100vh - 70px);
-  }
+.nav-card-sub {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
 
-  .welcome-card {
-    padding: 2rem 1.5rem;
-    border-radius: 20px;
-  }
+/* ── Quote ── */
+.quote-card {
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 1.8rem 2rem;
+  text-align: center;
+  background: transparent;
+}
 
-  .greeting {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
+.quote-text {
+  font-style: italic;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0 0 0.75rem;
+}
 
-  .days-together,
-  .next-plan,
-  .no-plan {
-    font-size: 1.1rem;
-  }
+.quote-author {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
 
-  .highlight {
-    font-size: 1.3em;
-  }
-
-  .shortcuts {
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 200px;
   }
 
-  .shortcut-card {
-    padding: 1.5rem 1rem;
+  .hero-content {
+    padding: 0 1.5rem 1.5rem;
   }
 
-  .shortcut-card .icon {
-    font-size: 2.5rem;
+  .dashboard-body {
+    padding: 1.5rem 1.5rem 2.5rem;
+    gap: 1.5rem;
   }
 
-  .shortcut-card .label {
-    font-size: 0.85rem;
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .greeting {
-    font-size: 1.8rem;
+  .hero {
+    height: 170px;
   }
 
-  .days-together,
-  .next-plan,
-  .no-plan {
-    font-size: 1rem;
+  .dashboard-body {
+    padding: 1rem 1rem 2rem;
   }
 
-  .shortcuts {
+  .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
 
-  .shortcut-card .icon {
-    font-size: 2.2rem;
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
   }
 }
 </style>

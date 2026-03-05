@@ -1,50 +1,61 @@
 <template>
   <header class="app-header">
     <nav>
-      <div class="logo">
-        <router-link to="/" class="logo-link">
-          <h2>SEHC x ANCHOA</h2>
-        </router-link>
-      </div>
+      <!-- Logo -->
+      <router-link to="/" class="logo-link">
+        <span class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
+            <line x1="12" y1="2" x2="12" y2="5"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="5" y2="12"/>
+            <line x1="19" y1="12" x2="22" y2="12"/>
+          </svg>
+        </span>
+        <span class="logo-text">LA ORGANIZACIÓN</span>
+      </router-link>
 
-      <!-- Botón hamburguesa -->
+      <!-- Botón hamburguesa (móvil) -->
       <button
         class="menu-toggle"
         @click="toggleMenu"
         :class="{ active: isMenuOpen }"
+        aria-label="Abrir menú"
       >
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <!-- Overlay para cerrar el menú -->
+      <!-- Overlay -->
       <div
         class="menu-overlay"
         :class="{ visible: isMenuOpen }"
         @click="closeMenu"
       ></div>
 
-      <!-- Menú de navegación -->
+      <!-- Navegación -->
       <ul class="nav-links" :class="{ open: isMenuOpen }">
         <li>
-          <router-link to="/" @click="closeMenu">Home</router-link>
+          <router-link to="/" @click="closeMenu" exact-active-class="active-link">
+            El Negocio
+          </router-link>
         </li>
         <li>
-          <router-link to="/timeline" @click="closeMenu">Timeline</router-link>
+          <router-link to="/map" @click="closeMenu" active-class="active-link">
+            El Territorio
+          </router-link>
         </li>
         <li>
-          <router-link to="/map" @click="closeMenu">Mapa</router-link>
+          <router-link to="/timeline" @click="closeMenu" active-class="active-link">
+            La Familia
+          </router-link>
         </li>
         <li>
-          <router-link to="/weekly-quiz" @click="closeMenu"
-            >Quiz Semanal</router-link
-          >
-        </li>
-        <li>
-          <router-link to="/future-plans" @click="closeMenu"
-            >Planes Futuros</router-link
-          >
+          <router-link to="/future-plans" @click="closeMenu" active-class="active-link">
+            Los Planes
+          </router-link>
         </li>
       </ul>
     </nav>
@@ -55,21 +66,16 @@
 import { ref } from "vue";
 
 const isMenuOpen = ref(false);
-
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
-};
-
-const closeMenu = () => {
-  isMenuOpen.value = false;
-};
+const toggleMenu = () => { isMenuOpen.value = !isMenuOpen.value; };
+const closeMenu = () => { isMenuOpen.value = false; };
 </script>
 
 <style scoped>
 .app-header {
-  background: var(--gradient-romantic);
-  padding: 1rem 2rem;
-  box-shadow: 0 4px 12px var(--shadow-soft);
+  background: #0f0f0f;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 2rem;
+  height: 56px;
   width: 100%;
   flex-shrink: 0;
   position: relative;
@@ -78,33 +84,78 @@ const closeMenu = () => {
 
 nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1400px;
   margin: 0 auto;
+  gap: 1rem;
 }
 
-.logo h2 {
-  color: var(--text-title);
-  margin: 0;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(226, 226, 226, 0.5);
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-  z-index: 1001;
-}
-
+/* Logo */
 .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
+  color: var(--accent-gold);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: opacity 0.2s;
 }
 
 .logo-link:hover {
   opacity: 0.8;
 }
 
-/* Botón hamburguesa */
+.logo-icon {
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+}
+
+.nav-links a.active-link,
+.nav-links a.router-link-exact-active {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  background: transparent;
+}
+
+/* Hamburguesa */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -114,124 +165,59 @@ nav {
   cursor: pointer;
   padding: 0.5rem;
   z-index: 1001;
-  position: relative;
 }
 
 .menu-toggle span {
-  width: 28px;
-  height: 3px;
-  background-color: var(--text-title);
-  border-radius: 3px;
+  width: 24px;
+  height: 2px;
+  background-color: var(--text-primary);
+  border-radius: 2px;
   transition: all 0.3s ease;
 }
 
-.menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(8px, 8px);
-}
+.menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(7px, 7px); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
 
-.menu-toggle.active span:nth-child(2) {
-  opacity: 0;
-}
+.menu-overlay { display: none; }
 
-.menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
-}
-
-/* Navegación */
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  z-index: 1001;
-}
-
-.nav-links a {
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  padding: 0.6rem 1.2rem;
-  border-radius: 25px;
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(5px);
-}
-
-.nav-links a:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-soft);
-}
-
-.nav-links a.router-link-active {
-  background-color: var(--bg-card);
-  color: var(--accent-love);
-  box-shadow: 0 4px 12px var(--shadow-medium);
-  font-weight: 700;
-}
-
-.menu-overlay {
-  display: none;
-}
-
-/* Responsive - Móvil */
+/* Responsive */
 @media (max-width: 768px) {
-  .app-header {
-    padding: 1rem 1.5rem;
-  }
+  .app-header { padding: 0 1rem; }
 
-  .logo h2 {
-    font-size: 1.2rem;
-  }
-
-  .menu-toggle {
-    display: flex;
-  }
+  .menu-toggle { display: flex; }
 
   .nav-links {
     position: fixed;
     top: 0;
     right: -100%;
     height: 100vh;
-    width: 280px;
+    width: 260px;
     flex-direction: column;
-    background: var(--gradient-romantic);
-    padding: 6rem 2rem 2rem;
-    gap: 0.5rem;
-    transition: right 0.4s ease-in-out;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    background: #0f0f0f;
+    border-left: 1px solid var(--border-subtle);
+    padding: 5rem 1.5rem 2rem;
+    gap: 0.25rem;
+    transition: right 0.35s ease-in-out;
     overflow-y: auto;
   }
 
-  .nav-links.open {
-    right: 0;
-  }
+  .nav-links.open { right: 0; }
 
-  .nav-links li {
-    width: 100%;
-  }
+  .nav-links li { width: 100%; }
 
   .nav-links a {
     display: block;
     width: 100%;
-    text-align: center;
-    padding: 1rem;
-    font-size: 1.1rem;
-  }
-
-  .nav-links a:hover {
-    transform: translateX(-5px);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
   }
 
   .menu-overlay {
     display: block;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -241,23 +227,6 @@ nav {
   .menu-overlay.visible {
     opacity: 1;
     pointer-events: auto;
-
-  }
-}
-
-/* Tablets */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .logo h2 {
-    font-size: 1.3rem;
-  }
-
-  .nav-links {
-    gap: 0.5rem;
-  }
-
-  .nav-links a {
-    padding: 0.5rem 0.8rem;
-    font-size: 0.9rem;
   }
 }
 </style>
