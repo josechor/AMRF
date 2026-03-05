@@ -1,6 +1,20 @@
 :root {
   /* === LA ORGANIZACIÓN – Paleta Noir & Oro === */
 
+  /* ── Tipografía ─────────────────────────────
+   *  Cambia --font-size-root para escalar TODO de golpe.
+   *  Los 5 niveles se usan en todos los componentes.
+   * ─────────────────────────────────────────── */
+  --font-size-root: 17px;      /* base global  ← sube/baja aquí para cambiar todo */
+
+  --text-xs:      0.71rem;     /* ~12px – etiquetas, metadatos          */
+  --text-sm:      0.85rem;     /* ~14px – texto secundario, subtítulos  */
+  --text-base:    1rem;        /* ~17px – cuerpo de texto               */
+  --text-lg:      1.25rem;     /* ~20px – títulos de card, nav items    */
+  --text-xl:      1.9rem;      /* ~25px – valores destacados            */
+  --text-display: 2.6rem;      /* ~44px – hero, stat values grandes     */
+  --text-extra-large: 3rem;      /* ~44px – hero, stat values grandes     */
+
   /* Acento oro – amarillo dorado estilo joyería */
   --accent-gold:        oklch(65.582% 0.10158 85.485);   /* oro principal            */
   --accent-gold-dark:   oklch(0.62 0.12 82);   /* oro oscuro / hover       */

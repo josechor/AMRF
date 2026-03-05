@@ -101,7 +101,7 @@ nav {
   color: var(--accent-gold);
   letter-spacing: 0.12em;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   white-space: nowrap;
   transition: opacity 0.2s;
 }
@@ -118,7 +118,7 @@ nav {
 
 .logo-text {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
-  font-size: 2.5rem;
+  font-size: var(--text-display);
   letter-spacing: 0.15em;
 }
 
@@ -135,7 +135,7 @@ nav {
   color: var(--text-secondary);
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   letter-spacing: 0.04em;
   padding: 0.4rem 1rem;
   border-radius: 4px;
@@ -211,7 +211,7 @@ nav {
     display: block;
     width: 100%;
     padding: 0.75rem 1rem;
-    font-size: 1rem;
+    font-size: var(--text-base);
   }
 
   .menu-overlay {

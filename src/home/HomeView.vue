@@ -204,7 +204,7 @@ const stats = ref({
 }
 
 .hero-subtitle {
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
   font-weight: 400;
@@ -248,7 +248,7 @@ const stats = ref({
 }
 
 .stat-label {
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   letter-spacing: 0.12em;
   color: var(--text-secondary);
   font-weight: 600;
@@ -261,7 +261,7 @@ const stats = ref({
 
 .stat-value {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
-  font-size: 2.4rem;
+  font-size: var(--text-display);
   color: var(--text-title);
   line-height: 1;
   margin-bottom: 0.8rem;
@@ -325,14 +325,14 @@ const stats = ref({
 
 .nav-card-title {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
-  font-size: 1.15rem;
+  font-size: var(--text-xl);
   letter-spacing: 0.1em;
   color: var(--text-title);
   font-weight: 600;
 }
 
 .nav-card-sub {
-  font-size: 0.8rem;
+  font-size: var(--text-base);
   color: var(--text-secondary);
   font-weight: 400;
 }
@@ -349,13 +349,13 @@ const stats = ref({
 .quote-text {
   font-style: italic;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   line-height: 1.7;
   margin: 0 0 0.75rem;
 }
 
 .quote-author {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   letter-spacing: 0.15em;
   color: var(--accent-gold);
   font-weight: 600;
@@ -393,7 +393,7 @@ const stats = ref({
   }
 
   .stat-value {
-    font-size: 2rem;
+    font-size: var(--text-xl);
   }
 }
 
@@ -416,7 +416,7 @@ const stats = ref({
   }
 
   .stat-value {
-    font-size: 1.8rem;
+    font-size: var(--text-lg);
   }
 }
 </style>
