@@ -127,7 +127,7 @@ const daysTogether = computed(() => {
 })
 
 const stats = ref({
-  operaciones: 4,
+  operaciones: 5,
   territorios: 3,
   familia: 7,
 })

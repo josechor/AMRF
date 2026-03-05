@@ -27,20 +27,20 @@
       </div>
 
       <!-- ─── Mapa Leaflet ───────────────────────── -->
-      <div class="map-area">
+      <div ref="mapArea" class="map-area">
         <div ref="mapContainer" class="leaflet-map"></div>
       </div>
 
       <!-- ─── Territory Cards ────────────────────── -->
       <div class="territories-grid">
-        <div class="territory-card" v-for="t in territories" :key="t.id">
+        <div class="territory-card" v-for="t in territories" :key="t.id" @click="focusTerritory(t)">
           <div class="card-top">
             <span class="t-code">ZONA {{ String(t.id).padStart(2, '0') }}</span>
             <span class="t-status-badge">◆ CONQUISTADO</span>
           </div>
 
           <h2 class="t-name">{{ t.name }}</h2>
-          <a class="t-location" :href="t.mapUrl" target="_blank" rel="noopener noreferrer">
+          <a class="t-location" :href="t.mapUrl" target="_blank" rel="noopener noreferrer" @click.stop>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
               <circle cx="12" cy="10" r="3"/>
@@ -108,8 +108,10 @@ const maxOps        = computed(() => Math.max(...territories.map(t => t.operatio
 const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >= b.operations ? a : b))
 
 // ── Leaflet ────────────────────────────────────────
+const mapArea      = ref(null)
 const mapContainer = ref(null)
-let map = null
+let map     = null
+const markers = {}
 
 const goldIcon = L.divIcon({
   className: '',
@@ -146,11 +148,19 @@ onMounted(() => {
         </a>
       </div>
     `
-    L.marker(t.coords, { icon: goldIcon })
+    markers[t.id] = L.marker(t.coords, { icon: goldIcon })
       .addTo(map)
       .bindPopup(popup, { className: 'lf-popup-wrapper', maxWidth: 200 })
   })
 })
+
+function focusTerritory(t) {
+  mapArea.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  setTimeout(() => {
+    map.flyTo(t.coords, 16, { duration: 0.8 })
+    setTimeout(() => markers[t.id].openPopup(), 900)
+  }, 400)
+}
 
 onUnmounted(() => {
   if (map) {
@@ -265,6 +275,7 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 0.5rem;
   transition: border-color 0.25s, box-shadow 0.25s;
+  cursor: pointer;
 }
 
 .territory-card:hover {
