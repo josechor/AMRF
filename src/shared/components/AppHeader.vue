@@ -75,7 +75,7 @@ const closeMenu = () => { isMenuOpen.value = false; };
   background: #0f0f0f;
   border-bottom: 1px solid var(--border-subtle);
   padding: 0 2rem;
-  height: 56px;
+  height: 86px;
   width: 100%;
   flex-shrink: 0;
   position: relative;
@@ -118,7 +118,7 @@ nav {
 
 .logo-text {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
-  font-size: 1.2rem;
+  font-size: 2.5rem;
   letter-spacing: 0.15em;
 }
 

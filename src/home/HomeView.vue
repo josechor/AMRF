@@ -123,7 +123,7 @@ const startDate = new Date('2025-11-12')
 
 const daysTogether = computed(() => {
   const today = new Date()
-  return Math.ceil(Math.abs(today - startDate) / (1000 * 60 * 60 * 24))
+  return Math.floor(Math.abs(today - startDate) / (1000 * 60 * 60 * 24))
 })
 
 const stats = ref({
@@ -248,14 +248,14 @@ const stats = ref({
 }
 
 .stat-label {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   letter-spacing: 0.12em;
   color: var(--text-secondary);
   font-weight: 600;
 }
 
 .stat-icon {
-  color: var(--text-muted);
+  color: var(--accent-gold);
   display: flex;
 }
 
