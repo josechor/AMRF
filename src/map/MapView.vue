@@ -1,7 +1,6 @@
 <template>
   <div class="territory">
     <div class="page-body">
-
       <!-- ─── Header ─────────────────────────────── -->
       <header class="page-header">
         <h1 class="page-title">El Territorio</h1>
@@ -33,17 +32,35 @@
 
       <!-- ─── Territory Cards ────────────────────── -->
       <div class="territories-grid">
-        <div class="territory-card" v-for="t in territories" :key="t.id" @click="focusTerritory(t)">
+        <div
+          class="territory-card"
+          v-for="t in territories"
+          :key="t.id"
+          @click="focusTerritory(t)"
+        >
           <div class="card-top">
-            <span class="t-code">ZONA {{ String(t.id).padStart(2, '0') }}</span>
+            <span class="t-code">ZONA {{ String(t.id).padStart(2, "0") }}</span>
             <span class="t-status-badge">◆ CONQUISTADO</span>
           </div>
 
           <h2 class="t-name">{{ t.name }}</h2>
-          <a class="t-location" :href="t.mapUrl" target="_blank" rel="noopener noreferrer" @click.stop>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
+          <a
+            class="t-location"
+            :href="t.mapUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            @click.stop
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
             </svg>
             {{ t.location }}
           </a>
@@ -66,60 +83,68 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 const territories = [
   {
     id: 1,
-    name: 'El Koi',
-    location: 'Vigo',
+    name: "El Koi",
+    location: "Vigo",
     operations: 1,
     coords: [42.06547424493406, -8.504045586508964],
-    mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd259d698791e63f:0xeb55356da6f44b0b?sa=X&ved=1t:8290&ictx=111',
+    mapUrl:
+      "https://www.google.com/maps/place//data=!4m2!3m1!1s0xd259d698791e63f:0xeb55356da6f44b0b?sa=X&ved=1t:8290&ictx=111",
   },
   {
     id: 2,
-    name: 'Umi · Laxe',
-    location: 'A Laxe, Vigo',
+    name: "Umi · Laxe",
+    location: "A Laxe, Vigo",
     operations: 3,
     coords: [42.240739199931284, -8.72681290000497],
-    mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd2f63f6591ac4a1:0xd325ec4ebc5c5487?sa=X&ved=1t:8290&ictx=111',
+    mapUrl:
+      "https://www.google.com/maps/place//data=!4m2!3m1!1s0xd2f63f6591ac4a1:0xd325ec4ebc5c5487?sa=X&ved=1t:8290&ictx=111",
   },
   {
     id: 3,
-    name: 'Umi · Samil',
-    location: 'Samil, Vigo',
+    name: "Umi · Samil",
+    location: "Samil, Vigo",
     operations: 1,
     coords: [42.20755352005486, -8.775723742327358],
-    mapUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0xd258bccd5c79eb1:0xa553d04668cdf310?sa=X&ved=1t:8290&ictx=111',
+    mapUrl:
+      "https://www.google.com/maps/place//data=!4m2!3m1!1s0xd258bccd5c79eb1:0xa553d04668cdf310?sa=X&ved=1t:8290&ictx=111",
   },
-]
+];
 
-const totalOps      = computed(() => territories.reduce((s, t) => s + t.operations, 0))
-const maxOps        = computed(() => Math.max(...territories.map(t => t.operations)))
-const bestTerritory = computed(() => territories.reduce((a, b) => a.operations >= b.operations ? a : b))
+const totalOps = computed(() =>
+  territories.reduce((s, t) => s + t.operations, 0),
+);
+const maxOps = computed(() =>
+  Math.max(...territories.map((t) => t.operations)),
+);
+const bestTerritory = computed(() =>
+  territories.reduce((a, b) => (a.operations >= b.operations ? a : b)),
+);
 
 // ── Leaflet ────────────────────────────────────────
-const mapArea      = ref(null)
-const mapContainer = ref(null)
-let map     = null
-const markers = {}
+const mapArea = ref(null);
+const mapContainer = ref(null);
+let map = null;
+const markers = {};
 
 const goldIcon = L.divIcon({
-  className: '',
+  className: "",
   html: `<div class="lf-pin"><div class="lf-pin-pulse"></div></div>`,
   iconSize: [16, 16],
   iconAnchor: [8, 8],
   popupAnchor: [0, -12],
-})
+});
 
 onMounted(() => {
   map = L.map(mapContainer.value, {
@@ -127,47 +152,51 @@ onMounted(() => {
     zoom: 10,
     zoomControl: false,
     attributionControl: false,
-  })
+  });
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    subdomains: "abcd",
     maxZoom: 19,
-  }).addTo(map)
+  }).addTo(map);
 
-  L.control.zoom({ position: 'bottomright' }).addTo(map)
+  L.control.zoom({ position: "bottomright" }).addTo(map);
 
-  territories.forEach(t => {
-    const ops = t.operations === 1 ? '1 operación' : `${t.operations} operaciones`
+  territories.forEach((t) => {
+    const ops =
+      t.operations === 1 ? "1 operación" : `${t.operations} operaciones`;
     const popup = `
       <div class="lf-popup">
-        <div class="lf-popup-code">ZONA ${String(t.id).padStart(2, '0')}</div>
+        <div class="lf-popup-code">ZONA ${String(t.id).padStart(2, "0")}</div>
         <div class="lf-popup-name">${t.name}</div>
         <div class="lf-popup-ops">${ops}</div>
         <a href="${t.mapUrl}" target="_blank" rel="noopener noreferrer" class="lf-popup-link">
           Ver en Maps →
         </a>
       </div>
-    `
+    `;
     markers[t.id] = L.marker(t.coords, { icon: goldIcon })
       .addTo(map)
-      .bindPopup(popup, { className: 'lf-popup-wrapper', maxWidth: 200 })
-  })
-})
+      .bindPopup(popup, { className: "lf-popup-wrapper", maxWidth: 200 });
+  });
+});
 
 function focusTerritory(t) {
-  mapArea.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const main = document.querySelector("main");
+  const mapRect = mapArea.value.getBoundingClientRect();
+  const mainRect = main.getBoundingClientRect();
+  main.scrollBy({ top: mapRect.top - mainRect.top, behavior: "smooth" });
   setTimeout(() => {
-    map.flyTo(t.coords, 16, { duration: 0.8 })
-    setTimeout(() => markers[t.id].openPopup(), 900)
-  }, 400)
+    map.flyTo(t.coords, 16, { duration: 0.8 });
+    setTimeout(() => markers[t.id].openPopup(), 900);
+  }, 400);
 }
 
 onUnmounted(() => {
   if (map) {
-    map.remove()
-    map = null
+    map.remove();
+    map = null;
   }
-})
+});
 </script>
 
 <style scoped>
@@ -186,10 +215,12 @@ onUnmounted(() => {
 }
 
 /* ─── Header ───────────────────────────────────── */
-.page-header { text-align: center; }
+.page-header {
+  text-align: center;
+}
 
 .page-title {
-  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-family: "Bebas Neue", "Rajdhani", sans-serif;
   font-size: clamp(2.6rem, 5vw, 4rem);
   letter-spacing: 0.12em;
   color: var(--text-title);
@@ -211,7 +242,7 @@ onUnmounted(() => {
   justify-content: center;
   gap: 2.5rem;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--accent-gold);
   border-radius: 8px;
   padding: 1.25rem 2rem;
 }
@@ -224,7 +255,7 @@ onUnmounted(() => {
 }
 
 .t-stat-value {
-  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-family: "Bebas Neue", "Rajdhani", sans-serif;
   font-size: var(--text-xl);
   color: #c9a84c;
   line-height: 1;
@@ -249,7 +280,7 @@ onUnmounted(() => {
 .map-area {
   position: relative;
   height: 400px;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--accent-gold);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -268,19 +299,20 @@ onUnmounted(() => {
 
 .territory-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--accent-gold);
   border-radius: 8px;
   padding: 1.4rem 1.5rem 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition: box-shadow 0.25s;
   cursor: pointer;
 }
 
 .territory-card:hover {
-  border-color: #c9a84c;
-  box-shadow: 0 0 0 1px #c9a84c, 0 4px 20px rgba(201, 168, 76, 0.2);
+  box-shadow:
+    0 0 0 1px var(--accent-gold),
+    0 4px 16px var(--shadow-gold);
 }
 
 .card-top {
@@ -304,7 +336,7 @@ onUnmounted(() => {
 }
 
 .t-name {
-  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-family: "Bebas Neue", "Rajdhani", sans-serif;
   font-size: var(--text-xl);
   letter-spacing: 0.08em;
   color: var(--text-title);
@@ -329,8 +361,12 @@ onUnmounted(() => {
   transition: opacity 0.2s;
 }
 
-.t-location:hover { color: #c9a84c; }
-.t-location:hover svg { opacity: 1; }
+.t-location:hover {
+  color: #c9a84c;
+}
+.t-location:hover svg {
+  opacity: 1;
+}
 
 .t-divider {
   height: 1px;
@@ -352,7 +388,7 @@ onUnmounted(() => {
 }
 
 .t-ops-value {
-  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-family: "Bebas Neue", "Rajdhani", sans-serif;
   font-size: var(--text-display);
   color: var(--text-title);
   line-height: 1;
@@ -390,19 +426,36 @@ onUnmounted(() => {
 
 /* ─── Responsive ──────────────────────────────── */
 @media (max-width: 1024px) {
-  .territories-grid { grid-template-columns: repeat(2, 1fr); }
+  .territories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .page-body { padding: 1.5rem 1rem 3rem; }
-  .territory-stats { gap: 1.5rem; padding: 1rem 1.2rem; }
-  .map-area { height: 300px; }
-  .territories-grid { grid-template-columns: 1fr; }
+  .page-body {
+    padding: 1.5rem 1rem 3rem;
+  }
+  .territory-stats {
+    gap: 1.5rem;
+    padding: 1rem 1.2rem;
+  }
+  .map-area {
+    height: 300px;
+  }
+  .territories-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
-  .territory-stats { flex-direction: column; gap: 1rem; }
-  .t-stat-divider { width: 40px; height: 1px; }
+  .territory-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .t-stat-divider {
+    width: 40px;
+    height: 1px;
+  }
 }
 </style>
 
@@ -428,8 +481,14 @@ onUnmounted(() => {
 }
 
 @keyframes lf-pulse {
-  0%   { transform: scale(1);   opacity: 0.5; }
-  100% { transform: scale(2.2); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
 }
 
 /* ── Popup wrapper (override Leaflet) ── */
@@ -463,7 +522,7 @@ onUnmounted(() => {
 /* ── Contenido del popup ── */
 .lf-popup {
   padding: 14px 16px;
-  font-family: 'Inter', 'Rajdhani', sans-serif;
+  font-family: "Inter", "Rajdhani", sans-serif;
   min-width: 160px;
 }
 
@@ -476,7 +535,7 @@ onUnmounted(() => {
 }
 
 .lf-popup-name {
-  font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+  font-family: "Bebas Neue", "Rajdhani", sans-serif;
   font-size: 22px;
   letter-spacing: 0.08em;
   color: #ffffff;
@@ -499,7 +558,9 @@ onUnmounted(() => {
   border: 1px solid rgba(201, 168, 76, 0.3);
   padding: 4px 10px;
   border-radius: 3px;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .lf-popup-link:hover {
