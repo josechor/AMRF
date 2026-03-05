@@ -306,21 +306,28 @@ watchEffect(() => {
 
   .modal {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 200px 1fr;
     max-width: 100%;
-    height: 92vh;
-    border-radius: 14px 14px 0 0;
-    border-bottom: none;
+    height: 100svh;
+    border-radius: 0;
+    border: none;
   }
 
   .modal-photo {
-    height: 240px;
-    flex-shrink: 0;
+    height: 100%;
+  }
+
+  .modal-photo img {
+    object-position: center 15%;
   }
 
   .modal-info {
-    height: auto;
-    padding: 1.4rem 1.2rem 2rem;
+    min-height: 0;
+    padding: 1.2rem 1.2rem 2.5rem;
+  }
+
+  .modal-nombre {
+    font-size: 2rem;
   }
 }
 </style>
