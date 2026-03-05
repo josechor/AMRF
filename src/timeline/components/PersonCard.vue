@@ -13,8 +13,13 @@ const props = defineProps({
   apodo: String,
   nombre: String,
   imagen: String,
-  descripcion: String,
   featured: Boolean,
+  // Modal fields (not rendered by the card, just passed through)
+  descripcion: String,
+  especialidad: String,
+  gustos: Array,
+  habilidades: Array,
+  debilidades: Array,
 })
 
 const emit = defineEmits(['select'])
@@ -29,6 +34,10 @@ function handleClick() {
     nombre: props.nombre,
     imagen: props.imagen ? getImage(props.imagen) : null,
     descripcion: props.descripcion,
+    especialidad: props.especialidad,
+    gustos: props.gustos,
+    habilidades: props.habilidades,
+    debilidades: props.debilidades,
   })
 }
 </script>

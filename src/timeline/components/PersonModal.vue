@@ -5,13 +5,13 @@
         <div class="modal" role="dialog" :aria-label="person.nombre">
 
           <button class="close-btn" @click="$emit('close')" aria-label="Cerrar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
 
-          <!-- Left: photo -->
+          <!-- Left: photo (sticky) -->
           <div class="modal-photo">
             <img v-if="person.imagen" :src="person.imagen" :alt="person.nombre" />
             <div v-else class="photo-placeholder">
@@ -22,12 +22,51 @@
             </div>
           </div>
 
-          <!-- Right: info -->
+          <!-- Right: scrollable info -->
           <div class="modal-info">
-            <p class="modal-apodo">{{ person.apodo }}</p>
-            <h2 class="modal-nombre">{{ person.nombre }}</h2>
-            <div class="modal-divider"></div>
-            <p class="modal-descripcion">{{ person.descripcion }}</p>
+
+            <!-- Identity header -->
+            <div class="modal-identity">
+              <p class="modal-apodo">{{ person.apodo }}</p>
+              <h2 class="modal-nombre">{{ person.nombre }}</h2>
+            </div>
+
+            <!-- 📝 Descripción -->
+            <div class="section">
+              <p class="section-header">📝 Descripción</p>
+              <p class="section-body">{{ person.descripcion }}</p>
+            </div>
+
+            <!-- 🎯 Especialidad -->
+            <div class="section">
+              <p class="section-header">🎯 Especialidad</p>
+              <p class="section-body">{{ person.especialidad }}</p>
+            </div>
+
+            <!-- 👍 Gustos -->
+            <div class="section">
+              <p class="section-header">👍 Gustos</p>
+              <ul class="section-list">
+                <li v-for="item in person.gustos" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+
+            <!-- 🧠 Habilidades -->
+            <div class="section">
+              <p class="section-header">🧠 Habilidades</p>
+              <ul class="section-list">
+                <li v-for="item in person.habilidades" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+
+            <!-- ⚡ Debilidades -->
+            <div class="section">
+              <p class="section-header">⚡ Debilidades</p>
+              <ul class="section-list">
+                <li v-for="item in person.debilidades" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+
           </div>
 
         </div>
@@ -45,7 +84,6 @@ const props = defineProps({
 
 defineEmits(['close'])
 
-// Lock body scroll while modal is open
 watchEffect(() => {
   document.body.style.overflow = props.person ? 'hidden' : ''
 })
@@ -56,7 +94,7 @@ watchEffect(() => {
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.78);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -70,32 +108,32 @@ watchEffect(() => {
   display: grid;
   grid-template-columns: 2fr 3fr;
   width: 100%;
-  max-width: 860px;
-  max-height: 90vh;
+  max-width: 900px;
+  height: min(640px, 88vh);
   background: var(--bg-secondary);
   border: 1px solid var(--accent-gold);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px oklch(0.65 0.10 85 / 0.15),
-              0 24px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 1px oklch(0.65 0.10 85 / 0.12),
+              0 32px 72px rgba(0, 0, 0, 0.65);
 }
 
 /* ─── Close button ─────────────────────────────────────────── */
 .close-btn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 34px;
-  height: 34px;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--bg-card);
-  border: 1px solid oklch(0.65 0.10 85 / 0.3);
+  border: 1px solid oklch(0.65 0.10 85 / 0.25);
   color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1;
+  z-index: 10;
   transition: border-color 0.2s, color 0.2s;
 }
 
@@ -104,10 +142,9 @@ watchEffect(() => {
   color: var(--accent-gold);
 }
 
-/* ─── Photo column ─────────────────────────────────────────── */
+/* ─── Photo column (fixed, doesn't scroll) ─────────────────── */
 .modal-photo {
-  min-height: 420px;
-  max-height: 90vh;
+  height: 100%;
   background: var(--bg-card);
   overflow: hidden;
 }
@@ -134,56 +171,119 @@ watchEffect(() => {
   height: 80px;
 }
 
-/* ─── Info column ──────────────────────────────────────────── */
+/* ─── Info column (scrollable) ─────────────────────────────── */
 .modal-info {
-  padding: 2.5rem 2rem 2.5rem 2.2rem;
+  height: 100%;
+  overflow-y: auto;
+  padding: 2rem 2rem 2rem 2.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  overflow-y: auto;
+  gap: 0;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.65 0.10 85 / 0.3) transparent;
+}
+
+.modal-info::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal-info::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-info::-webkit-scrollbar-thumb {
+  background: oklch(0.65 0.10 85 / 0.3);
+  border-radius: 2px;
+}
+
+/* ─── Identity header ──────────────────────────────────────── */
+.modal-identity {
+  padding-bottom: 1.2rem;
+  margin-bottom: 0.2rem;
+  border-bottom: 1px solid oklch(0.65 0.10 85 / 0.18);
 }
 
 .modal-apodo {
   font-size: var(--text-xs);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent-gold);
-  margin: 0;
+  margin: 0 0 0.2rem;
 }
 
 .modal-nombre {
   font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
   letter-spacing: 0.1em;
   color: var(--text-title);
   margin: 0;
-  line-height: 1.1;
+  line-height: 1;
 }
 
-.modal-divider {
-  width: 40px;
-  height: 2px;
-  background: var(--accent-gold);
-  opacity: 0.6;
-  margin: 0.8rem 0;
+/* ─── Sections ─────────────────────────────────────────────── */
+.section {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid oklch(0.65 0.10 85 / 0.08);
 }
 
-.modal-descripcion {
+.section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section-header {
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin: 0 0 0.55rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.section-body {
   font-size: var(--text-base);
   color: var(--text-secondary);
-  line-height: 1.75;
+  line-height: 1.72;
   margin: 0;
+}
+
+/* ─── List items ────────────────────────────────────────────── */
+.section-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.section-list li {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.section-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  opacity: 0.5;
 }
 
 /* ─── Transition ───────────────────────────────────────────── */
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.25s ease;
+  transition: opacity 0.22s ease;
 }
 
 .modal-enter-active .modal,
 .modal-leave-active .modal {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
 .modal-enter-from,
@@ -194,7 +294,7 @@ watchEffect(() => {
 .modal-enter-from .modal,
 .modal-leave-to .modal {
   opacity: 0;
-  transform: scale(0.96) translateY(8px);
+  transform: scale(0.97) translateY(6px);
 }
 
 /* ─── Responsive ───────────────────────────────────────────── */
@@ -206,19 +306,21 @@ watchEffect(() => {
 
   .modal {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
     max-width: 100%;
-    max-height: 92vh;
-    border-radius: 12px 12px 0 0;
+    height: 92vh;
+    border-radius: 14px 14px 0 0;
     border-bottom: none;
   }
 
   .modal-photo {
-    min-height: 260px;
-    max-height: 40vh;
+    height: 240px;
+    flex-shrink: 0;
   }
 
   .modal-info {
-    padding: 1.5rem 1.2rem 2rem;
+    height: auto;
+    padding: 1.4rem 1.2rem 2rem;
   }
 }
 </style>
